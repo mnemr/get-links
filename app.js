@@ -58,7 +58,7 @@ function _buildDOM(mergedArray, element){
   for(var j = 0; j < mergedArray.length; j++){
     url = mergedArray[j];
     var href = url.indexOf('http://') === 0 ? url : 'http://'+url;
-    listHTML += '<li><a href='+href+' >' + mergedArray[j] + '</a></li>';
+    listHTML += '<li><a href='+href+' target=_blank>' + mergedArray[j] + '</a></li>';
   }
 
   $(element).html(listHTML);
