@@ -21,16 +21,14 @@ function _getLinks(linkSection){
 /* Split Links
 *  Params1:String
 */
-function _split(inputTextId){
-  var inputText = document.getElementById(inputTextId).value;
-  var words = inputText.split(' ');
+function _split(text){
+  var inputText = text;
+  var words = inputText.split('\n');
   var newLinks = [];
   for(var i=0; i < words.length; i++){
-    var periodPosition = words[i].indexOf('.');
-    if(periodPosition !== -1){
-      if(periodPosition > 0 && periodPosition < words[i].length - 1){
-        newLinks.push(words[i]);
-      }
+    var urlRegex = /(http?:\/\/[^\s]+)/g;
+    if(urlRegex.test(words[i])){
+      newLinks.push(words[i]);
     }
   }
   return newLinks;
@@ -60,7 +58,7 @@ function _buildDOM(mergedArray, element){
   for(var j = 0; j < mergedArray.length; j++){
     url = mergedArray[j];
     var href = url.indexOf('http://') === 0 ? url : 'http://'+url;
-    listHTML += '<li><a href='+href+'>' + mergedArray[j] + '</a></li>';
+    listHTML += '<li><a href='+href+' >' + mergedArray[j] + '</a></li>';
   }
 
   $(element).html(listHTML);
@@ -69,7 +67,8 @@ function _buildDOM(mergedArray, element){
 
 function parse(currentLinksDOM) {
   //var links = _getLinks(currentLinksDOM);
-  var newLinks = _split('inputText');
+  var text = document.getElementById('inputText').value;
+  var newLinks = _split(text);
   var mergedLinks = _buildList([], newLinks);
   //localStorage["links"] = JSON.stringify(mergedLinks);
   _buildDOM(mergedLinks, currentLinksDOM);
